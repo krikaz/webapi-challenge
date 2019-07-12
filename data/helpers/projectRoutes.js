@@ -87,4 +87,4 @@ async function validateProjectId(req, res, next) {
 	}
 }
 
-module.exports = router;
+module.exports = { router, validateProjectId };

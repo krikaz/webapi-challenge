@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
 	} catch (error) {
 		res
 			.status(500)
-			.json({ error: 'The project information could not be retrieved.' });
+			.json({ error: 'The projects information could not be retrieved.' });
 	}
 });
 
@@ -33,6 +33,30 @@ router.delete('/:id', validateProjectId, async (req, res) => {
 		res.status(500).json({
 			error: 'The project could not be deleted.',
 		});
+	}
+});
+
+router.put('/:id', validateProjectId, validateProject, async (req, res) => {
+	try {
+		const { id } = req.params;
+		const project = await Projects.update(id, req.body);
+		res.status(201).json(project);
+	} catch (error) {
+		res.status(500).json({
+			error: 'There was an error while updating the project to the database',
+		});
+	}
+});
+
+router.get('/:id/actions', validateProjectId, async (req, res) => {
+	try {
+		const { id } = req.params;
+		const project = await Projects.getProjectActions(id);
+		res.status(200).json(project);
+	} catch (error) {
+		res
+			.status(500)
+			.json({ error: 'The project information could not be retrieved.' });
 	}
 });
 

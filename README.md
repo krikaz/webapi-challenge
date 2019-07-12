@@ -26,13 +26,21 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 - [ ] Mention two parts of Express that you learned about this week.
 
+Creating routers and separate them in different files for clarity. Create the port the server listens to.
+
 - [ ] Describe Middleware?
+
+Middleware is a piece of software that intercepts the http requests and can modify the data.
 
 - [ ] Describe a Resource?
 
 - [ ] What can the API return to help clients know if a request was successful?
 
+The API can return a status code 200 ok, or 201 created along with a message in JSON format.
+
 - [ ] How can we partition our application into sub-applications?
+
+Through routing.
 
 ## Project Setup
 

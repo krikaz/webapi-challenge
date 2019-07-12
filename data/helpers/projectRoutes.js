@@ -125,4 +125,4 @@ async function validateAction(req, res, next) {
 	}
 }
 
-module.exports = { router, validateProjectId };
+module.exports = { router, validateAction };

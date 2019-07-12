@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Projects = require('./projectModel');
+const Actions = require('./actionModel');
 
 router.get('/', async (req, res) => {
 	try {
@@ -60,6 +61,23 @@ router.get('/:id/actions', validateProjectId, async (req, res) => {
 	}
 });
 
+router.post(
+	'/:id/actions',
+	validateProjectId,
+	validateAction,
+	async (req, res) => {
+		try {
+			const actionInfo = { ...req.body, project_id: req.params.id };
+			const action = await Actions.insert(actionInfo);
+			res.status(201).json(action);
+		} catch (error) {
+			res.status(500).json({
+				error: 'There was an error while saving the action to the database',
+			});
+		}
+	}
+);
+
 // middleware
 
 async function validateProject(req, res, next) {
@@ -84,6 +102,26 @@ async function validateProjectId(req, res, next) {
 		next();
 	} else {
 		res.status(400).json({ message: 'invalid project id' });
+	}
+}
+
+async function validateAction(req, res, next) {
+	if (Object.keys(req.body).length !== 0) {
+		if (req.body.description && req.body.notes) {
+			if (req.body.description.length < 128) {
+				next();
+			} else {
+				res
+					.status(400)
+					.json({ message: 'description too long (max 128 characters)' });
+			}
+		} else {
+			res
+				.status(400)
+				.json({ message: 'missing required description or notes field' });
+		}
+	} else {
+		res.status(400).json({ message: 'missing project data' });
 	}
 }
 
